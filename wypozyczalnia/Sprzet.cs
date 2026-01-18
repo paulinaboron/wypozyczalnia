@@ -14,7 +14,7 @@ namespace WypozyczalniaNarciarska
     }
 
     [DataContract]
-    public abstract class SprzetNarciarski
+    public abstract class SprzetNarciarski : ICloneable, IComparable<SprzetNarciarski>, IEquatable<SprzetNarciarski>
     {
         [DataMember]
         private Guid id;
@@ -86,7 +86,24 @@ namespace WypozyczalniaNarciarska
         {
             return $"{Opis()} | Dostępny: {(CzyDostepny ? "TAK" : "NIE")}";
         }
-        
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        public int CompareTo(SprzetNarciarski? other)
+        {
+            if (other is null) return -1;
+            return CenaZaDzien.CompareTo(other.CenaZaDzien);
+        }
+
+        public bool Equals(SprzetNarciarski? other)
+        {
+            if (other is null) return false;
+            return Id.Equals(other.Id);
+        }
+
     }
 }
 
