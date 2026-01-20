@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace WypozyczalniaNarciarska
 {
+    [DataContract]
     public class Narty : SprzetNarciarski
     {
         public int Rozmiar { get; }

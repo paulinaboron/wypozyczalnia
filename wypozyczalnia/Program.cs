@@ -48,6 +48,23 @@ namespace WypozyczalniaNarciarska
             {
                 Console.WriteLine($"{ex.GetType().Name} - {ex.Message}");
             }
+            Console.WriteLine("\n--- TEST REZERWACJI ---");
+
+            var klient = new Klient("Anna", "Nowak", "99010112345", DateTime.Parse("1999-01-01"), "123456789", "a@a.pl");
+            var nartyTest = new Narty("Head", 50m, 27, 175, TypNart.Freeride, false, 2022);
+
+            var rez = new Rezerwacja(klient, nartyTest, DateTime.Today.AddDays(1), DateTime.Today.AddDays(4));
+
+            Console.WriteLine(rez);
+            Console.WriteLine("Koszt: " + rez.ObliczKoszt() + " zł");
+
+            var wyp = new Wypozyczalnia();
+            wyp.DodajRezerwacje(rez);
+            wyp.ZapiszDoPliku("wypozyczalnia.xml");
+
+            Console.WriteLine("Zapisano dane do pliku XML");
+
         }
     }
 }
+

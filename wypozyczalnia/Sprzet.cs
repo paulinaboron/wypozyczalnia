@@ -12,8 +12,10 @@ namespace WypozyczalniaNarciarska
         public NiepoprawnaCenaException()
             : base("Cena za dzień musi być większa od zera.") { }
     }
-
     [DataContract]
+    [KnownType(typeof(Narty))]
+    [KnownType(typeof(Snowboard))]
+    [KnownType(typeof(Buty))]
     public abstract class SprzetNarciarski : ICloneable, IComparable<SprzetNarciarski>, IEquatable<SprzetNarciarski>
     {
         [DataMember]
