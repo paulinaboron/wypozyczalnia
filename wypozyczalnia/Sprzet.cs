@@ -12,6 +12,7 @@ namespace WypozyczalniaNarciarska
         public NiepoprawnaCenaException()
             : base("Cena za dzień musi być większa od zera.") { }
     }
+
     [DataContract]
     [KnownType(typeof(Narty))]
     [KnownType(typeof(Snowboard))]

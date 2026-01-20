@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace WypozyczalniaNarciarska
 {
@@ -14,10 +15,16 @@ namespace WypozyczalniaNarciarska
     public class Wypozyczalnia
     {
         [DataMember]
-        public List<Rezerwacja> Rezerwacje { get; private set; } = new();
+        public ObservableCollection<Rezerwacja> Rezerwacje { get; private set; } = new();
 
         [DataMember]
-        public List<Wypozyczenie> Wypozyczenia { get; private set; } = new();
+        public ObservableCollection<Wypozyczenie> Wypozyczenia { get; private set; } = new();
+
+        [DataMember]
+        public ObservableCollection<Klient> Klienci { get; private set; } = new();
+
+        [DataMember]
+        public ObservableCollection<SprzetNarciarski> ListaSprzetu { get; private set; } = new();
 
         public void DodajRezerwacje(Rezerwacja r)
         {
@@ -29,16 +36,26 @@ namespace WypozyczalniaNarciarska
             Wypozyczenia.Add(w);
         }
 
+        public void DodajKlienta(Klient k)
+        {
+            Klienci.Add(k);
+        }
+
+        public void DodajSprzet(SprzetNarciarski s)
+        {
+            ListaSprzetu.Add(s);
+        }
+
         public void ZapiszDoPliku(string nazwa)
         {
             DataContractSerializer serializer = new(
-    typeof(Wypozyczalnia),
-    new Type[]
-    {
-        typeof(Narty),
-        typeof(Snowboard),
-        typeof(Buty)
-    });
+                typeof(Wypozyczalnia),
+                new Type[]
+                {
+                    typeof(Narty),
+                    typeof(Snowboard),
+                    typeof(Buty)
+                });
 
            
             using FileStream fs = new(nazwa, FileMode.Create);
@@ -47,8 +64,12 @@ namespace WypozyczalniaNarciarska
 
         public static Wypozyczalnia WczytajZPliku(string nazwa)
         {
-            DataContractSerializer serializer = new(typeof(Wypozyczalnia));
-            using FileStream fs = new(nazwa, FileMode.Open);
+            DataContractSerializer serializer = new DataContractSerializer(
+                typeof(Wypozyczalnia),
+                new Type[] { typeof(Narty), typeof(Snowboard), typeof(Buty) }
+            );
+
+            using FileStream fs = new FileStream(nazwa, FileMode.Open);
             return (Wypozyczalnia)serializer.ReadObject(fs);
         }
     }
