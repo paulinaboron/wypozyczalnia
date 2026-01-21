@@ -100,11 +100,70 @@ namespace WypozyczalniaGUI
         private void BtnRealizuj_Click(object sender, RoutedEventArgs e)
         {
 
+            if (dgRezerwacje.SelectedItem is Rezerwacja wybranaRez)
+            {
+                try
+                {
+                    Wypozyczenie noweWyp = new Wypozyczenie(
+                        wybranaRez.Klient,
+                        wybranaRez.Sprzet,
+                        wybranaRez.DataOd,
+                        wybranaRez.DataDo
+                    );
+
+                    _wypozyczalnia.DodajWypozyczenie(noweWyp);
+                    _wypozyczalnia.Rezerwacje.Remove(wybranaRez);
+
+                    dgRezerwacje.Items.Refresh();
+                    dgWypozyczenia.Items.Refresh();
+
+                    MessageBox.Show("Rezerwacja została pomyślnie zmieniona w wypożyczenie.", "Sukces");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Błąd podczas realizacji: {ex.Message}", "Błąd");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Proszę najpierw wybrać rezerwację z listy.");
+            }
         }
 
         private void BtnAnuluj_Click(object sender, RoutedEventArgs e)
         {
+            Rezerwacja wybranaRezerwacja = (Rezerwacja)dgRezerwacje.SelectedItem;
+            if (wybranaRezerwacja != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Czy na pewno chcesz anulować wybraną rezerwację?", "Potwierdzenie anulowania", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    _wypozyczalnia.UsunRezerwacje(wybranaRezerwacja);
+                    dgRezerwacje.Items.Refresh();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Proszę wybrać rezerwację do anulowania.", "Brak wyboru", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
 
+        private void BtnPrzyjmijZwrot_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgWypozyczenia.SelectedItem is Wypozyczenie wybrane)
+            {
+                try
+                {
+                    wybrane.ZwrocSprzet(DateTime.Now);
+                    dgWypozyczenia.Items.Refresh();
+
+                    MessageBox.Show($"Sprzęt zwrócony. Koszt całkowity: {wybrane.ObliczKoszt():C}");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
     }
 }

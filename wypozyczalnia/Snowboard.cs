@@ -44,7 +44,7 @@ namespace WypozyczalniaNarciarska
         public override string Opis()
         {
             return base.Opis() +
-                $" | Snowboard, {Dlugosc} cm, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięcy (zniżka)" : "dla dorosłych");
+                $" | {Dlugosc} cm, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięcy (zniżka)" : "dla dorosłych");
         }
     }
 }

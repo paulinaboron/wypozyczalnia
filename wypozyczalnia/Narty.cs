@@ -41,7 +41,7 @@ namespace WypozyczalniaNarciarska
         public override string Opis()
         {
             return base.Opis() +
-                $" | Narty {Typ}, {Dlugosc} cm, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięce (zniżka)" : "dla dorosłych");
+                $" | {Typ}, {Dlugosc} cm, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięce (zniżka)" : "dla dorosłych");
         }
     }
 }

@@ -25,12 +25,13 @@ namespace WypozyczalniaGUI
         {
             _wypozyczalnia = wypozyczalnia;
             InitializeComponent();
-            dgSprzet.ItemsSource = _wypozyczalnia.ListaSprzetu;
+            lbSprzet.ItemsSource = _wypozyczalnia.ListaSprzetu;
         }
 
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            string fraza = txtSearch.Text.ToLower();
+            lbSprzet.ItemsSource = _wypozyczalnia.ListaSprzetu.Where(s => s.Opis().ToLower().Contains(fraza)).ToList();
         }
 
         private void CbTypSprzetu_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -91,7 +92,7 @@ namespace WypozyczalniaGUI
             }
 
 
-            dgSprzet.Items.Refresh();
+            lbSprzet.Items.Refresh();
 
         }
     }

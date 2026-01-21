@@ -49,19 +49,16 @@ namespace WypozyczalniaNarciarska
             }
         }
 
+        public decimal Koszt => ObliczKoszt();
+
         public Rezerwacja(Klient klient, SprzetNarciarski sprzet, DateTime od, DateTime _do)
         {
             Id = Guid.NewGuid();
             Klient = klient ?? throw new ArgumentNullException(nameof(klient));
             Sprzet = sprzet ?? throw new ArgumentNullException(nameof(sprzet));
 
-            if (!Sprzet.CzyDostepny)
-                throw new NiepoprawnaRezerwacjaException("Wybrany sprzęt jest już zajęty.");
-
             DataOd = od;
             DataDo = _do;
-
-            Sprzet.CzyDostepny = false;
         }
 
         public virtual decimal ObliczKoszt()

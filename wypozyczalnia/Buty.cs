@@ -40,7 +40,7 @@ namespace WypozyczalniaNarciarska
         public override string Opis()
         {
             return base.Opis() +
-                $" | Buty, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięce (zniżka)" : "dla dorosłych");
+                $" | Rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięce (zniżka)" : "dla dorosłych");
         }
     }
 }

@@ -31,6 +31,11 @@ namespace WypozyczalniaNarciarska
             Rezerwacje.Add(r);
         }
 
+        public void UsunRezerwacje(Rezerwacja r)
+        {
+            Rezerwacje.Remove(r);
+        }
+
         public void DodajWypozyczenie(Wypozyczenie w)
         {
             Wypozyczenia.Add(w);

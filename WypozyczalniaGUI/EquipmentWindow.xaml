@@ -12,21 +12,20 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <GroupBox Header="Dostępny Sprzęt" Grid.Column="0" Margin="5">
+        <GroupBox Header="Wykaz sprzętu" Grid.Column="0" Margin="5">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
-                    <TextBlock Text="Szukaj (Producent):" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <TextBlock Text="Szukaj:" VerticalAlignment="Center" Margin="0,0,5,0"/>
                     <TextBox x:Name="txtSearch" Width="150" TextChanged="TxtSearch_TextChanged"/>
                 </StackPanel>
 
-                <DataGrid x:Name="dgSprzet" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Typ" Binding="{Binding Type.Name}" Width="Auto"/>
-                        <DataGridTextColumn Header="Producent" Binding="{Binding Producent}" Width="*"/>
-                        <DataGridTextColumn Header="Cena/Dzień" Binding="{Binding CenaZaDzien, StringFormat={}{0:C}}" Width="Auto"/>
-                        <DataGridCheckBoxColumn Header="Dostępny" Binding="{Binding CzyDostepny}" Width="Auto"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <ListBox x:Name="lbSprzet" ItemsSource="{Binding}" Margin="5">
+    <ListBox.ItemTemplate>
+        <DataTemplate>
+            <TextBlock Text="{Binding .}" TextWrapping="Wrap"/>
+        </DataTemplate>
+    </ListBox.ItemTemplate>
+</ListBox>
             </DockPanel>
         </GroupBox>
 

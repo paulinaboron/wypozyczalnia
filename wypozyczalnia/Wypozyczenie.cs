@@ -26,7 +26,6 @@ namespace WypozyczalniaNarciarska
 
             DataZwrotu = dataZwrotu;
             Zakonczone = true;
-            Sprzet.CzyDostepny = true;
         }
 
         public override decimal ObliczKoszt()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace WypozyczalniaNarciarska
 {
@@ -25,8 +26,6 @@ namespace WypozyczalniaNarciarska
         private string producent;
         [DataMember]
         private decimal cenaZaDzien;
-        [DataMember]
-        private bool czyDostepny;
 
         public Guid Id => id;
 
@@ -52,18 +51,12 @@ namespace WypozyczalniaNarciarska
             }
         }
 
-        public bool CzyDostepny
-        {
-            get => czyDostepny;
-            set => czyDostepny = value;
-        }
         
         protected SprzetNarciarski()
         {
             id = Guid.NewGuid();
             producent = "brak";
             cenaZaDzien = 1;
-            czyDostepny = true;
         }
 
         protected SprzetNarciarski(string producent, decimal cenaZaDzien) : this()
@@ -87,7 +80,13 @@ namespace WypozyczalniaNarciarska
 
         public override string ToString()
         {
-            return $"{Opis()} | Dostępny: {(CzyDostepny ? "TAK" : "NIE")}";
+            return Opis();
+        }
+
+        public bool CzyWolnyWTerminie(DateTime od, DateTime _do, ObservableCollection<Rezerwacja> wszystkieRezerwacje)
+        {
+            return !wszystkieRezerwacje.Any(r => r.Sprzet.Id == this.Id &&
+                                           od < r.DataDo && _do > r.DataOd);
         }
 
         public object Clone()

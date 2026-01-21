@@ -33,11 +33,11 @@
 
                     <DataGrid x:Name="dgRezerwacje" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Klient" Binding="{Binding Klient.Nazwisko}" Width="*"/>
-                            <DataGridTextColumn Header="Sprzęt" Binding="{Binding Sprzet.Producent}" Width="*"/>
+                            <DataGridTextColumn Header="Klient" Binding="{Binding Klient}" Width="*"/>
+                            <DataGridTextColumn Header="Sprzęt" Binding="{Binding Sprzet}" Width="*"/>
                             <DataGridTextColumn Header="Od" Binding="{Binding DataOd, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
                             <DataGridTextColumn Header="Do" Binding="{Binding DataDo, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
-                            <DataGridTextColumn Header="Przewidywany Koszt" Width="120"/>
+                            <DataGridTextColumn Header="Przewidywany Koszt" Binding="{Binding Koszt, StringFormat={}{0:C}}" Width="120"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -49,15 +49,25 @@
             </TabItem>
 
             <TabItem Header="Aktualne Wypożyczenia">
-                <DataGrid x:Name="dgWypozyczenia" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
-                        <DataGridTextColumn Header="Klient" Binding="{Binding Klient.Nazwisko}" Width="*"/>
-                        <DataGridTextColumn Header="Sprzęt" Binding="{Binding Sprzet.Producent}" Width="*"/>
-                        <DataGridTextColumn Header="Data Wypożyczenia" Binding="{Binding DataOd, StringFormat={}{0:dd.MM.yyyy}}" Width="150"/>
-                        <DataGridCheckBoxColumn Header="Zakończone" Binding="{Binding Zakonczone}" Width="Auto"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="dgWypozyczenia" Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Klient" Binding="{Binding Klient}" Width="*"/>
+                            <DataGridTextColumn Header="Sprzęt" Binding="{Binding Sprzet}" Width="*"/>
+                            <DataGridTextColumn Header="Data Wypożyczenia" Binding="{Binding DataOd, StringFormat={}{0:dd.MM.yyyy}}" Width="150"/>
+                            <DataGridCheckBoxColumn Header="Zakończone" Binding="{Binding Zakonczone, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Przyjmij zwrot" Click="BtnPrzyjmijZwrot_Click" Margin="5" Width="150" Height="30"/>
+                    </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
 
