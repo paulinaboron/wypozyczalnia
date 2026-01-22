@@ -51,7 +51,10 @@ namespace WypozyczalniaNarciarska
             }
         }
 
-        
+        public string TypSprzetu => GetType().Name;
+        public virtual string Szczegoly => "";
+
+
         protected SprzetNarciarski()
         {
             id = Guid.NewGuid();
@@ -75,18 +78,12 @@ namespace WypozyczalniaNarciarska
 
         public virtual string Opis()
         {
-            return $"{GetType().Name} | {Producent} | {CenaZaDzien} zł/dzień";
+            return $"{TypSprzetu} | {Producent} | {CenaZaDzien} zł/dzień";
         }
 
         public override string ToString()
         {
             return Opis();
-        }
-
-        public bool CzyWolnyWTerminie(DateTime od, DateTime _do, ObservableCollection<Rezerwacja> wszystkieRezerwacje)
-        {
-            return !wszystkieRezerwacje.Any(r => r.Sprzet.Id == this.Id &&
-                                           od < r.DataDo && _do > r.DataOd);
         }
 
         public object Clone()

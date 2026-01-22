@@ -51,6 +51,16 @@ namespace WypozyczalniaNarciarska
             ListaSprzetu.Add(s);
         }
 
+        public bool CzyDostepnyWTerminie(SprzetNarciarski s, DateTime od, DateTime _do)
+        {
+            bool zarezerwowane = !Rezerwacje.Any(r => r.Sprzet.Id == s.Id &&
+                                           od < r.DataDo && _do > r.DataOd);
+            bool wypozyczone = !Wypozyczenia.Any(w => w.Sprzet.Id == s.Id &&
+                                              od < w.DataDo && _do > w.DataOd);
+
+            return zarezerwowane && wypozyczone;
+        }
+
         public void ZapiszDoPliku(string nazwa)
         {
             DataContractSerializer serializer = new(

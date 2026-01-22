@@ -24,7 +24,7 @@
         </ToolBar>
 
         <TabControl Grid.Row="1" Margin="10">
-            <TabItem Header="Aktywne Rezerwacje">
+            <TabItem Header="Rezerwacje">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -37,7 +37,7 @@
                             <DataGridTextColumn Header="Sprzęt" Binding="{Binding Sprzet}" Width="*"/>
                             <DataGridTextColumn Header="Od" Binding="{Binding DataOd, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
                             <DataGridTextColumn Header="Do" Binding="{Binding DataDo, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
-                            <DataGridTextColumn Header="Przewidywany Koszt" Binding="{Binding Koszt, StringFormat={}{0:C}}" Width="120"/>
+                            <DataGridTextColumn Header="Przewidywany Koszt" Binding="{Binding Koszt, StringFormat={}{0:N2} zł}" Width="120"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -48,7 +48,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Aktualne Wypożyczenia">
+            <TabItem Header="Wypożyczenia">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

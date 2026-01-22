@@ -27,7 +27,7 @@ namespace WypozyczalniaGUI
             _wypozyczalnia = wypozyczalnia;
             InitializeComponent();
             lbDostepnySprzet.ItemsSource = _wypozyczalnia.ListaSprzetu
-                .Where(s => s.CzyWolnyWTerminie(DateTime.Now, DateTime.Now, _wypozyczalnia.Rezerwacje))
+                .Where(s => _wypozyczalnia.CzyDostepnyWTerminie(s, DateTime.Now, DateTime.Now))
                 .ToList();
             cbKlienci.ItemsSource = _wypozyczalnia.Klienci;
         }
@@ -67,21 +67,24 @@ namespace WypozyczalniaGUI
             DateTime koniec = dpDataDo.SelectedDate ?? DateTime.Now.AddDays(1);
 
             lbDostepnySprzet.ItemsSource = _wypozyczalnia.ListaSprzetu
-                .Where(s => s.CzyWolnyWTerminie(start, koniec, _wypozyczalnia.Rezerwacje))
+                .Where(s => _wypozyczalnia.CzyDostepnyWTerminie(s, start, koniec))
                 .ToList();
         }
 
         private void LbDostepnySprzet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (lbDostepnySprzet.SelectedItem == null)
+            {
+                lblSuma.Text = "0.00 zł";
+                return;
+            }
+            SprzetNarciarski wybranySprzet = (SprzetNarciarski)lbDostepnySprzet.SelectedItem;
             DateTime start = dpDataOd.SelectedDate ?? DateTime.Now;
             DateTime koniec = dpDataDo.SelectedDate ?? DateTime.Now.AddDays(1);
 
-            decimal cenaZadzien = lbDostepnySprzet.SelectedItem is SprzetNarciarski sprzet ? sprzet.CenaZaDzien : 0;
-
             int dni = (koniec - start).Days;
             if (dni <= 0) dni = 1;
-            decimal calkowityKoszt = dni * cenaZadzien;
-            lblSuma.Text = $"{calkowityKoszt} zł";
+            lblSuma.Text = $"{wybranySprzet.ObliczKoszt(dni)} zł";
         }
     }
 }

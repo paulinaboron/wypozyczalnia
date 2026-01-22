@@ -14,7 +14,7 @@ using WypozyczalniaNarciarska;
 namespace WypozyczalniaGUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Klasa MainWindow umożliwia zarządzanie wypożyczalnią narciarską poprzez interfejs graficzny.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -102,12 +102,24 @@ namespace WypozyczalniaGUI
 
             if (dgRezerwacje.SelectedItem is Rezerwacja wybranaRez)
             {
+                if (DateTime.Today < wybranaRez.DataOd)
+                {
+                    MessageBox.Show($"Za wcześnie na odbiór! Rezerwacja zaczyna się dopiero {wybranaRez.DataOd:dd.MM.yyyy}.",
+                                    "Błąd realizacji", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                if (DateTime.Today > wybranaRez.DataDo)
+                {
+                    MessageBox.Show("Ta rezerwacja już wygasła. Nie można jej zrealizować.",
+                                    "Błąd realizacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 try
                 {
                     Wypozyczenie noweWyp = new Wypozyczenie(
                         wybranaRez.Klient,
                         wybranaRez.Sprzet,
-                        wybranaRez.DataOd,
+                        DateTime.Today,
                         wybranaRez.DataDo
                     );
 

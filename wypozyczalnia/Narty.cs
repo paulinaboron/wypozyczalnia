@@ -6,11 +6,16 @@ namespace WypozyczalniaNarciarska
     [DataContract]
     public class Narty : SprzetNarciarski
     {
-        public int Rozmiar { get; }
-        public int Dlugosc { get; }
-        public TypNart Typ { get; }
-        public bool DlaDziecka { get; }
-        public int RokProdukcji { get; }
+        [DataMember]
+        public int Rozmiar { get; set; }
+        [DataMember]
+        public int Dlugosc { get; set; }
+        [DataMember]
+        public TypNart Typ { get; set; }
+        [DataMember]
+        public bool DlaDziecka { get; set; }
+        [DataMember]
+        public int RokProdukcji { get; set; }
 
         public Narty(string producent, decimal cenaZaDzien, int rozmiar, int dlugosc, TypNart typ, bool dlaDziecka, int rokProdukcji) : base(producent, cenaZaDzien)
         {
@@ -38,10 +43,11 @@ namespace WypozyczalniaNarciarska
             return koszt;
         }
 
+        public override string Szczegoly => $"{Typ}, {Dlugosc} cm, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięce (zniżka)" : "dla dorosłych");
+
         public override string Opis()
         {
-            return base.Opis() +
-                $" | {Typ}, {Dlugosc} cm, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięce (zniżka)" : "dla dorosłych");
+            return base.Opis() + $" | {Szczegoly}";
         }
     }
 }

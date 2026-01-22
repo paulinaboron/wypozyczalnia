@@ -2,15 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using WypozyczalniaNarciarska;
 
 namespace WypozyczalniaNarciarska
 {
+    [DataContract]
     public class Wypozyczenie : Rezerwacja
     {
+        [DataMember]
         public bool Zakonczone { get; private set; }
+        [DataMember]
         public DateTime? DataZwrotu { get; private set; }
 
         public Wypozyczenie(Klient klient, SprzetNarciarski sprzet, DateTime od, DateTime _do)

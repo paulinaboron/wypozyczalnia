@@ -25,13 +25,14 @@ namespace WypozyczalniaGUI
         {
             _wypozyczalnia = wypozyczalnia;
             InitializeComponent();
-            lbSprzet.ItemsSource = _wypozyczalnia.ListaSprzetu;
+            dgSprzet.ItemsSource = _wypozyczalnia.ListaSprzetu;
+            cbTypNart.ItemsSource = Enum.GetValues(typeof(TypNart));
         }
 
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             string fraza = txtSearch.Text.ToLower();
-            lbSprzet.ItemsSource = _wypozyczalnia.ListaSprzetu.Where(s => s.Opis().ToLower().Contains(fraza)).ToList();
+            dgSprzet.ItemsSource = _wypozyczalnia.ListaSprzetu.Where(s => s.Opis().ToLower().Contains(fraza)).ToList();
         }
 
         private void CbTypSprzetu_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -55,21 +56,20 @@ namespace WypozyczalniaGUI
 
         private void BtnDodaj_Click(object sender, RoutedEventArgs e)
         {
-            var wybranyRodzaj = (cbTypSprzetu.SelectedItem as ComboBoxItem)?.Content.ToString();
-
-            string producent = txtProducent.Text;
-            decimal cenaZaDzien = decimal.Parse(txtCena.Text);
-            int rokProdukcji = int.Parse(txtRok.Text);
-            int rozmiar = int.Parse(txtRozmiar.Text);
-            bool dlaDziecka = (bool)chkDlaDziecka.IsChecked;
-
             try
             {
+                var wybranyRodzaj = (cbTypSprzetu.SelectedItem as ComboBoxItem)?.Content.ToString();
+                string producent = txtProducent.Text;
+                decimal cenaZaDzien = decimal.Parse(txtCena.Text);
+                int rokProdukcji = int.Parse(txtRok.Text);
+                int rozmiar = int.Parse(txtRozmiar.Text);
+                bool dlaDziecka = (bool)chkDlaDziecka.IsChecked;
+
                 switch (wybranyRodzaj)
                 {
                 case "Narty":
                     int dlugosc = int.Parse(txtDlugosc.Text);
-                    TypNart typNart = TypNart.Biegowe;
+                    TypNart typNart = (TypNart)cbTypNart.SelectedItem;
                     Narty narty = new Narty(producent, cenaZaDzien, rozmiar, dlugosc, typNart, dlaDziecka, rokProdukcji);
                     _wypozyczalnia.DodajSprzet(narty);
                     break;
@@ -92,7 +92,7 @@ namespace WypozyczalniaGUI
             }
 
 
-            lbSprzet.Items.Refresh();
+            dgSprzet.Items.Refresh();
 
         }
     }

@@ -19,13 +19,14 @@
                     <TextBox x:Name="txtSearch" Width="150" TextChanged="TxtSearch_TextChanged"/>
                 </StackPanel>
 
-                <ListBox x:Name="lbSprzet" ItemsSource="{Binding}" Margin="5">
-    <ListBox.ItemTemplate>
-        <DataTemplate>
-            <TextBlock Text="{Binding .}" TextWrapping="Wrap"/>
-        </DataTemplate>
-    </ListBox.ItemTemplate>
-</ListBox>
+                <DataGrid x:Name="dgSprzet" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" Margin="5">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Typ" Binding="{Binding TypSprzetu}" Width="100"/>
+                        <DataGridTextColumn Header="Producent" Binding="{Binding Producent}" Width="100"/>
+                        <DataGridTextColumn Header="Cena za dzień" Binding="{Binding CenaZaDzien, StringFormat={}{0:N2} zł}" Width="100"/>
+                        <DataGridTextColumn Header="Opis" Binding="{Binding Szczegoly}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </DockPanel>
         </GroupBox>
 
@@ -58,12 +59,7 @@
 
                     <StackPanel x:Name="panelTypNart" Visibility="Collapsed">
                         <TextBlock Text="Typ nart:"/>
-                        <ComboBox x:Name="cbTypNart" Margin="0,0,0,5">
-                            <ComboBoxItem Content="Slalom"/>
-                            <ComboBoxItem Content="Biegowe"/>
-                            <ComboBoxItem Content="Freeride"/>
-                            <ComboBoxItem Content="AllMountain"/>
-                        </ComboBox>
+                        <ComboBox x:Name="cbTypNart" Margin="0,0,0,5"/>
                     </StackPanel>
 
                     <CheckBox x:Name="chkDlaDziecka" Content="Sprzęt dla dziecka" Margin="0,10,0,10"/>
