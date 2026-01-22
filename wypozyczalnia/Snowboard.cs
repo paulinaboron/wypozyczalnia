@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace WypozyczalniaNarciarska
 {
+    /// <summary>
+    /// Reprezentuje snowboard dostępny w wypożyczalni.
+    /// </summary>
 
     [DataContract]
     public class Snowboard : SprzetNarciarski
@@ -20,6 +23,10 @@ namespace WypozyczalniaNarciarska
         [DataMember]
         public int RokProdukcji { get; set; }
 
+        /// <summary>
+        /// Tworzy nowy snowboard z podanymi parametrami.
+        /// Wyświetla wyjątek gdy którykolwiek z parametrów jest poza dozwolonym zakresem.
+        /// </summary>
         public Snowboard(string producent, decimal cenaZaDzien, int rozmiar, int dlugosc, bool dlaDziecka, int rokProdukcji) : base(producent, cenaZaDzien)
         {
             if (rozmiar <= 0)
@@ -35,6 +42,12 @@ namespace WypozyczalniaNarciarska
             RokProdukcji = rokProdukcji;
         }
 
+        /// <summary>
+        /// Oblicza koszt wypożyczenia snowboardu na daną liczbę dni.
+        /// Uwzględnia 15% zniżki dla snowboardów dziecięcych.
+        /// Zwraca Całkowity koszt wypożyczenia.
+        /// </summary>
+
         public override decimal ObliczKoszt(int liczbaDni)
         {
             decimal koszt = base.ObliczKoszt(liczbaDni);
@@ -45,8 +58,14 @@ namespace WypozyczalniaNarciarska
             return koszt;
         }
 
+        /// <summary>
+        /// Zwraca szczegółowe informacje o snowboardzie.
+        /// </summary>
         public override string Szczegoly => $"{Dlugosc} cm, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięcy (zniżka)" : "dla dorosłych");
 
+        /// <summary>
+        /// Zwraca pełny opis snowboardu.
+        /// </summary>
         public override string Opis()
         {
             return base.Opis() + $" | {Szczegoly}";
