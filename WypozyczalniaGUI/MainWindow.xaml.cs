@@ -14,7 +14,17 @@ using WypozyczalniaNarciarska;
 namespace WypozyczalniaGUI
 {
     /// <summary>
-    /// Klasa MainWindow umożliwia zarządzanie wypożyczalnią narciarską poprzez interfejs graficzny.
+    /// Główna klasa aplikacji stanowiąca centrum sterowania interfejsem użytkownika.
+    /// 
+    /// Zarządzanie Danymi: Inicjalizuje główny obiekt logiczny _wypozyczalnia i przypisuje kolekcje rezerwacji oraz wypożyczeń do odpowiednich kontrolek DataGrid
+    /// Obsługa okien modalnych: ClientWindow (klienci), EquipmentWindow (sprzęt) oraz NewReservationWindow (nowe rezerwacje)
+    /// 
+    /// Logika Biznesowa:
+    /// * Przekształca istniejącą rezerwację w aktywne wypożyczenie, walidując przy tym termin odbioru
+    /// * Anuluje wybraną rezerwację po potwierdzeniu użytkownika
+    /// * Przyjmuje zwrot sprzętu i oblicza całkowity koszt wypożyczenia
+    /// 
+    /// Operacje na plikach: Obsługuje zapisywanie i wczytywanie stanu aplikacji do plików XML
     /// </summary>
     public partial class MainWindow : Window
     {

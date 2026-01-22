@@ -43,7 +43,7 @@ namespace WypozyczalniaNarciarska
             get => dataDo;
             private set
             {
-                if (value <= DataOd)
+                if (value < DataOd)
                     throw new NiepoprawnaRezerwacjaException("Data zakończenia musi być późniejsza niż rozpoczęcia.");
                 dataDo = value;
             }

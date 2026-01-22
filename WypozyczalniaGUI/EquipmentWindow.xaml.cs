@@ -16,7 +16,10 @@ using WypozyczalniaNarciarska;
 namespace WypozyczalniaGUI
 {
     /// <summary>
-    /// Logika interakcji dla klasy EquipmentWindow.xaml
+    /// Klasa odpowiedzialna za zarządzanie asortymentem sprzętu narciarskiego.
+    /// 
+    /// Prezentacja danych: ładuje listę dostępnego sprzętu w kontrolce DataGrid oraz umożliwia filtrowanie według frazy wyszukiwania.
+    /// Dodawanie sprzętu: pobiera dane z formularza  i tworzy różne typy sprzętu (narty, snowboard, buty) z odpowiednimi właściwościami i walidacją danych wejściowych.
     /// </summary>
     public partial class EquipmentWindow : Window
     {
@@ -35,6 +38,8 @@ namespace WypozyczalniaGUI
             dgSprzet.ItemsSource = _wypozyczalnia.ListaSprzetu.Where(s => s.Opis().ToLower().Contains(fraza)).ToList();
         }
 
+        /// Dynamika Formularza
+        /// Metoda steruje widocznością pól wejściowych (np. długość, typ nart) w zależności od wybranego rodzaju sprzętu
         private void CbTypSprzetu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var wybranyRodzaj = (cbTypSprzetu.SelectedItem as ComboBoxItem)?.Content.ToString();

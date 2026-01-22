@@ -16,7 +16,11 @@ using WypozyczalniaNarciarska;
 namespace WypozyczalniaGUI
 {
     /// <summary>
-    /// Logika interakcji dla klasy ClientWindow.xaml
+    /// Klasa zapewnia interfejs do zarządzania bazą klientów.
+    /// 
+    /// Wyświetlanie Listy: Pobiera kolekcję Klienci z głównego obiektu wypożyczalni i wyświetla ją w DataGrid.
+    /// Rejestracja Nowych Klientów: Zbiera dane z pól tekstowych (w tym PESEL i e-mail) i tworzy nowy obiekt klasy Klient.
+    /// Obsługa Wyjątków: Przechwytuje błędy rzucane przez logikę klasy Klient (np. błędny format PESEL) i wyświetla je użytkownikowi w formie komunikatu.
     /// </summary>
     public partial class ClientWindow : Window
     {

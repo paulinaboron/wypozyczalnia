@@ -17,7 +17,11 @@ using WypozyczalniaNarciarska;
 namespace WypozyczalniaGUI
 {
     /// <summary>
-    /// Logika interakcji dla klasy NewReservationWindow.xaml
+    /// Obsługa procesu tworzenia nowej rezerwacji sprzętu
+    /// 
+    /// Kontrola Dostępności: Dynamicznie filtruje listę sprzętu w metodzie Termin_Changed, wyświetlając tylko te pozycje, które są wolne w wybranym przedziale czasowym
+    /// Kalkulacja Kosztu: Metoda LbDostepnySprzet_SelectionChanged na bieżąco oblicza szacowany koszt wynajmu po wybraniu konkretnego przedmiotu i określeniu liczby dni.
+    /// Tworzenie Obiektu: Po zatwierdzeniu tworzy nową instancję klasy Rezerwacja, łącząc wybranego klienta, sprzęt oraz ramy czasowe.
     /// </summary>
     public partial class NewReservationWindow : Window
     {
@@ -82,7 +86,7 @@ namespace WypozyczalniaGUI
             DateTime start = dpDataOd.SelectedDate ?? DateTime.Now;
             DateTime koniec = dpDataDo.SelectedDate ?? DateTime.Now.AddDays(1);
 
-            int dni = (koniec - start).Days;
+            int dni = (koniec - start).Days +1;
             if (dni <= 0) dni = 1;
             lblSuma.Text = $"{wybranySprzet.ObliczKoszt(dni)} zł";
         }
