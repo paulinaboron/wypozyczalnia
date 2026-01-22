@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace WypozyczalniaNarciarska
 {
@@ -14,6 +15,9 @@ namespace WypozyczalniaNarciarska
     }
 
     [DataContract]
+    [KnownType(typeof(Narty))]
+    [KnownType(typeof(Snowboard))]
+    [KnownType(typeof(Buty))]
     public abstract class SprzetNarciarski : ICloneable, IComparable<SprzetNarciarski>, IEquatable<SprzetNarciarski>
     {
         [DataMember]
@@ -22,8 +26,6 @@ namespace WypozyczalniaNarciarska
         private string producent;
         [DataMember]
         private decimal cenaZaDzien;
-        [DataMember]
-        private bool czyDostepny;
 
         public Guid Id => id;
 
@@ -49,18 +51,15 @@ namespace WypozyczalniaNarciarska
             }
         }
 
-        public bool CzyDostepny
-        {
-            get => czyDostepny;
-            set => czyDostepny = value;
-        }
-        
+        public string TypSprzetu => GetType().Name;
+        public virtual string Szczegoly => "";
+
+
         protected SprzetNarciarski()
         {
             id = Guid.NewGuid();
             producent = "brak";
             cenaZaDzien = 1;
-            czyDostepny = true;
         }
 
         protected SprzetNarciarski(string producent, decimal cenaZaDzien) : this()
@@ -79,12 +78,12 @@ namespace WypozyczalniaNarciarska
 
         public virtual string Opis()
         {
-            return $"{GetType().Name} | {Producent} | {CenaZaDzien} zł/dzień";
+            return $"{TypSprzetu} | {Producent} | {CenaZaDzien} zł/dzień";
         }
 
         public override string ToString()
         {
-            return $"{Opis()} | Dostępny: {(CzyDostepny ? "TAK" : "NIE")}";
+            return Opis();
         }
 
         public object Clone()
