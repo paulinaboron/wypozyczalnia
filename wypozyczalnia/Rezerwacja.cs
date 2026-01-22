@@ -9,6 +9,9 @@ using WypozyczalniaNarciarska;
 
 namespace WypozyczalniaNarciarska
 {
+    /// <summary>
+    /// Reprezentuje rezerwację sprzętu narciarskiego przez klienta.
+    /// </summary>
     [DataContract]
     public class Rezerwacja : IComparable<Rezerwacja>, IEquatable<Rezerwacja>
     {
@@ -27,6 +30,12 @@ namespace WypozyczalniaNarciarska
         [DataMember]
         private DateTime dataDo;
 
+        /// <summary>
+        /// Data rozpoczęcia rezerwacji.
+        /// Nie może być wcześniejsza niż dzisiejsza data.
+        /// Wyświetla wyjątek gdy data rozpoczęcia jest z przeszłości.
+        /// </summary>
+
         public DateTime DataOd
         {
             get => dataOd;
@@ -37,6 +46,12 @@ namespace WypozyczalniaNarciarska
                 dataOd = value;
             }
         }
+
+        /// <summary>
+        /// Data zakończenia rezerwacji.
+        /// Musi być późniejsza niż data rozpoczęcia.
+        /// Wyświetla wyjątek gdy data zakończenia jest wcześniejsza niż data rozpoczęcia.
+        /// </summary>
 
         public DateTime DataDo
         {
@@ -49,7 +64,15 @@ namespace WypozyczalniaNarciarska
             }
         }
 
+        /// <summary>
+        /// Całkowity koszt rezerwacji.
+        /// </summary>
+
         public decimal Koszt => ObliczKoszt();
+
+        /// <summary>
+        /// Tworzy nową rezerwację sprzętu dla danego klienta.
+        /// </summary>
 
         public Rezerwacja(Klient klient, SprzetNarciarski sprzet, DateTime od, DateTime _do)
         {
@@ -61,6 +84,10 @@ namespace WypozyczalniaNarciarska
             DataDo = _do;
         }
 
+        /// <summary>
+        /// Oblicza koszt rezerwacji na podstawie długości wypożyczenia i ceny sprzętu.
+        /// zwraca całkowity koszt rezerwacji.
+        /// </summary>
         public virtual decimal ObliczKoszt()
         {
             int dni = (DataDo - DataOd).Days;
@@ -68,17 +95,29 @@ namespace WypozyczalniaNarciarska
             return Sprzet.ObliczKoszt(dni);
         }
 
+        /// <summary>
+        /// Porównuje dwie rezerwacje według daty rozpoczęcia.
+        /// </summary>
+        
         public int CompareTo(Rezerwacja? other)
         {
             if (other == null) return -1;
             return DataOd.CompareTo(other.DataOd);
         }
 
+        /// <summary>
+        /// Sprawdza, czy dwie rezerwacje są takie same na podstawie identyfikatora.
+        /// </summary>
+        
         public bool Equals(Rezerwacja? other)
         {
             if (other == null) return false;
             return Id == other.Id;
         }
+
+        /// <summary>
+        /// Zwraca tekstową reprezentację rezerwacji.
+        /// </summary>
 
         public override string ToString()
         {
