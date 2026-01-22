@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,6 +8,10 @@ using WypozyczalniaNarciarska;
 
 namespace WypozyczalniaNarciarska
 {
+    /// <summary>
+    /// Reprezentuje faktyczne wypożyczenie sprzętu przez klienta.
+    /// Dziedziczy po klasie Rezerwacja.
+    /// </summary>
     [DataContract]
     public class Wypozyczenie : Rezerwacja
     {
@@ -17,11 +20,19 @@ namespace WypozyczalniaNarciarska
         [DataMember]
         public DateTime? DataZwrotu { get; private set; }
 
+        /// <summary>
+        /// Tworzy nowe wypożyczenie sprzętu dla danego klienta.
+        /// </summary>
         public Wypozyczenie(Klient klient, SprzetNarciarski sprzet, DateTime od, DateTime _do)
             : base(klient, sprzet, od, _do)
         {
             Zakonczone = false;
         }
+
+        /// <summary>
+        /// Oznacza wypożyczenie jako zakończone i ustawia datę zwrotu sprzętu.
+        /// Wyświetla błąd gdy data zwrotu jest wcześniejsza niż data rozpoczęcia wypożyczenia.
+        /// </summary>
 
         public void ZwrocSprzet(DateTime dataZwrotu)
         {
@@ -31,6 +42,13 @@ namespace WypozyczalniaNarciarska
             DataZwrotu = dataZwrotu;
             Zakonczone = true;
         }
+
+        /// <summary>
+        /// Oblicza koszt wypożyczenia.
+        /// Jeśli sprzęt został zwrócony, koszt jest liczony na podstawie faktycznej daty zwrotu.
+        /// W przeciwnym wypadku używana jest planowana data zakończenia.
+        /// Zwraca całkowity koszt wypożyczenia.
+        /// </summary>
 
         public override decimal ObliczKoszt()
         {
