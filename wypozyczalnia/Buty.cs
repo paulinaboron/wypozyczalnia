@@ -55,7 +55,7 @@ namespace WypozyczalniaNarciarska
         }
 
         /// <summary>
-        /// Zwraca szczegółowe informacje o butach narciarskich.
+        /// Zwraca szczegółowe informacje o butach do wypożyczenia.
         /// </summary>
         public override string Szczegoly => $"Rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięce (zniżka)" : "dla dorosłych");
 
