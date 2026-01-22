@@ -8,11 +8,18 @@ using System.Collections.ObjectModel;
 
 namespace WypozyczalniaNarciarska
 {
+    /// <summary>
+    /// Wyjątek zgłaszany, gdy podana cena sprzętu jest niepoprawna.
+    /// </summary>
     public class NiepoprawnaCenaException : Exception
     {
         public NiepoprawnaCenaException()
             : base("Cena za dzień musi być większa od zera.") { }
     }
+
+    /// <summary>
+    /// Abstrakcyjna klasa bazowa reprezentująca sprzęt narciarski.
+    /// </summary>
 
     [DataContract]
     [KnownType(typeof(Narty))]
@@ -29,6 +36,10 @@ namespace WypozyczalniaNarciarska
 
         public Guid Id => id;
 
+        /// <summary>
+        /// Nazwa producenta sprzętu.
+        /// Wyświetla wyjątek gdy nazwa producenta jest pusta.
+        /// </summary>
         public string Producent
         {
             get => producent;
@@ -40,6 +51,10 @@ namespace WypozyczalniaNarciarska
             }
         }
 
+        /// <summary>
+        /// Cena wypożyczenia sprzętu za jeden dzień.
+        /// Wyświetla wyjątek gdy cena jest mniejsza lub równa zero.
+        /// </summary>
         public decimal CenaZaDzien
         {
             get => cenaZaDzien;
@@ -51,9 +66,20 @@ namespace WypozyczalniaNarciarska
             }
         }
 
+        /// <summary>
+        /// Nazwa typu sprzętu (np. Narty, Snowboard, Buty).
+        /// </summary>
+
         public string TypSprzetu => GetType().Name;
+
+        /// <summary>
+        /// Nazwa typu sprzętu (np. Narty, Snowboard, Buty).
+        /// </summary>
         public virtual string Szczegoly => "";
 
+        /// <summary>
+        /// Konstruktor domyślny tworzący sprzęt z wartościami domyślnymi.
+        /// </summary>
 
         protected SprzetNarciarski()
         {
@@ -62,12 +88,20 @@ namespace WypozyczalniaNarciarska
             cenaZaDzien = 1;
         }
 
+        /// <summary>
+        /// Tworzy sprzęt narciarski z określonym producentem i ceną.
+        /// </summary>
         protected SprzetNarciarski(string producent, decimal cenaZaDzien) : this()
         {
             Producent = producent;
             CenaZaDzien = cenaZaDzien;
         }
 
+        /// <summary>
+        /// Oblicza koszt wypożyczenia sprzętu na określoną liczbę dni.
+        /// Zwraca całkowity koszt wypożyczenia.
+        /// Wyświetla błą gdy liczba dni jest mniejsza lub równa zero.
+        /// </summary>
         public virtual decimal ObliczKoszt(int liczbaDni)
         {
             if (liczbaDni <= 0)
@@ -76,27 +110,43 @@ namespace WypozyczalniaNarciarska
             return CenaZaDzien * liczbaDni;
         }
 
+        /// <summary>
+        /// Zwraca podstawowy opis sprzętu.
+        /// </summary>
+
         public virtual string Opis()
         {
             return $"{TypSprzetu} | {Producent} | {CenaZaDzien} zł/dzień";
         }
 
+        /// <summary>
+        /// Zwraca opis sprzętu.
+        /// </summary>
         public override string ToString()
         {
             return Opis();
         }
 
+        /// <summary>
+        /// Tworzy kopię obiektu sprzętu.
+        /// </summary>
         public object Clone()
         {
             return MemberwiseClone();
         }
 
+        /// <summary>
+        /// Porównuje dwa obiekty sprzętu według ceny za dzień.
+        /// </summary>
         public int CompareTo(SprzetNarciarski? other)
         {
             if (other is null) return -1;
             return CenaZaDzien.CompareTo(other.CenaZaDzien);
         }
 
+        /// <summary>
+        /// Sprawdza, czy dwa obiekty sprzętu są identyczne na podstawie identyfikatora.
+        /// </summary>
         public bool Equals(SprzetNarciarski? other)
         {
             if (other is null) return false;
