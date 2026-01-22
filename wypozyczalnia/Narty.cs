@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace WypozyczalniaNarciarska
 {
+    /// <summary>
+    /// Reprezentuje narty dostępne w wypożyczalni narciarskiej.
+    /// </summary>
     [DataContract]
     public class Narty : SprzetNarciarski
     {
@@ -16,6 +19,11 @@ namespace WypozyczalniaNarciarska
         public bool DlaDziecka { get; set; }
         [DataMember]
         public int RokProdukcji { get; set; }
+
+        /// <summary>
+        /// Tworzy nowe narty z określonymi parametrami.
+        /// Wyświetla błąd gdy którykolwiek z parametrów jest poza dozwolonym zakresem.
+        /// </summary>
 
         public Narty(string producent, decimal cenaZaDzien, int rozmiar, int dlugosc, TypNart typ, bool dlaDziecka, int rokProdukcji) : base(producent, cenaZaDzien)
         {
@@ -33,6 +41,12 @@ namespace WypozyczalniaNarciarska
             RokProdukcji = rokProdukcji;
         }
 
+        /// <summary>
+        /// Oblicza koszt wypożyczenia nart na daną liczbę dni.
+        /// Uwzględnia 20% zniżki dla nart dziecięcych.
+        /// Zwraca całkowity koszt wypożyczenia.
+        /// </summary>
+
         public override decimal ObliczKoszt(int liczbaDni)
         {
             decimal koszt = base.ObliczKoszt(liczbaDni);
@@ -43,8 +57,14 @@ namespace WypozyczalniaNarciarska
             return koszt;
         }
 
+        /// <summary>
+        /// Zwraca szczegółowe informacje o nartach.
+        /// </summary>
         public override string Szczegoly => $"{Typ}, {Dlugosc} cm, rozmiar {Rozmiar}, " + (DlaDziecka ? "dziecięce (zniżka)" : "dla dorosłych");
 
+        /// <summary>
+        /// Zwraca pełny opis nart.
+        /// </summary>
         public override string Opis()
         {
             return base.Opis() + $" | {Szczegoly}";
